@@ -91,7 +91,8 @@ InstructionWalker normalization::handleContainer(
             it.previousInBlock();
         }
     }
-    else if(op != nullptr && (op->getFirstArg().checkVector() || (op->getSecondArg() & &Value::checkVector)))
+    /*else if(op != nullptr && (op->getFirstArg().checkVector() || (op->getSecondArg() & &Value::checkVector)))*/
+    /**/else if(op != nullptr && (op->getFirstArg().checkVector() || (op->getSecondArg() && op->getSecondArg()->checkVector())))/**/
     {
         for(std::size_t i = 0; i < op->getArguments().size(); ++i)
         {
@@ -119,7 +120,8 @@ InstructionWalker normalization::handleContainer(
             // don't skip next instruction
             it.previousInBlock();
         }
-        if((op->getSecondArg() & &Value::checkVector) && !op->assertArgument(1).type.getPointerType())
+        /*if((op->getSecondArg() & &Value::checkVector) && !op->assertArgument(1).type.getPointerType())*/
+        /**/if((op->getSecondArg() && op->getSecondArg()->checkVector()) && !op->assertArgument(1).type.getPointerType())/**/
         {
             CPPLOG_LAZY(logging::Level::DEBUG,
                 log << "Rewriting operation with container-input " << op->to_string() << logging::endl);

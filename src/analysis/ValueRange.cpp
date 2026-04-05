@@ -368,19 +368,27 @@ ValueRange ValueRange::getValueRangeFlat(const intermediate::IntermediateInstruc
 void ValueRange::update(const Optional<Value>& constant, const FastMap<const Local*, ValueRange>& ranges,
     const intermediate::IntermediateInstruction* it, const Method* method, const BuiltinLocal* builtin)
 {
+    /**/
+    Optional<Literal> lit;
+    SIMDVector const * vec;
+    /**/
     // values set by built-ins
     if(auto range = getValueRange(it ? it->decoration : InstructionDecorations::NONE, method))
     {
         extendBoundaries(*range);
     }
     // loading of immediates/literals
-    else if(auto lit = (constant & &Value::getLiteralValue))
+    // TO DO: following causes operator ambiguities when compiling with C++17
+    /*else if(auto lit = (constant & &Value::getLiteralValue))*/
+    /**/else if(constant && (lit = constant->getLiteralValue()))/**/
     {
         // immediate values are always signed
         extendBoundaries(
             *lit, constant->type.isFloatingType(), constant->checkImmediate(), constant->isUnsignedInteger());
     }
-    else if(auto vec = constant & &Value::checkVector)
+    // TO DO: following causes operator ambiguities when compiling with C++17
+    /*else if(auto vec = constant & &Value::checkVector)*/
+    /**/else if(constant && (vec = constant->checkVector()))/**/
     {
         if(constant->type.isFloatingType())
         {

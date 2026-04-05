@@ -692,7 +692,8 @@ InstructionWalker intrinsics::intrinsifyUnsignedIntegerDivisionByConstant(
     if(op.getFirstArg().type.getScalarBitCount() > 16)
         throw CompilationError(CompilationStep::NORMALIZER, "Division by constant may overflow for argument type",
             op.getFirstArg().type.to_string());
-    if(!(op.getSecondArg() & &Value::isLiteralValue) && !(op.getSecondArg() & &Value::checkVector))
+    /*if(!(op.getSecondArg() & &Value::isLiteralValue) && !(op.getSecondArg() & &Value::checkVector))*/
+    /**/if(!(op.getSecondArg() & &Value::isLiteralValue) && !(op.getSecondArg() && op.getSecondArg()->checkVector()))/**/
         throw CompilationError(CompilationStep::NORMALIZER, "Can only optimize division by constant", op.to_string());
 
     /*
