@@ -22,7 +22,7 @@ using namespace vc4c::operators;
  * Since the element stride is not 1 (i.e. we skip elements, e.g. for intN to lower/upper part of longN conversion), we
  * cannot just simply copy, but instead have to rotate every element into place.
  */
-static NODISCARD InstructionWalker insertStridedBitcast(
+NODISCARD static InstructionWalker insertStridedBitcast(
     InstructionWalker it, Method& method, const Value& src, const Value& dest, uint32_t elementStride, bool zeroOutput)
 {
     auto destination = method.addNewLocal(dest.type, "%bit_cast_result");
@@ -57,7 +57,7 @@ static NODISCARD InstructionWalker insertStridedBitcast(
  *
  * This also means, the source vector has more elements (of smaller type-size) than the destination vector
  */
-static NODISCARD InstructionWalker insertCombiningBitcast(
+NODISCARD static InstructionWalker insertCombiningBitcast(
     InstructionWalker it, Method& method, const Value& src, const Value& dest, uint32_t elementStride, bool zeroOutput)
 {
     // the number of source elements to combine in a single destination element
@@ -159,7 +159,7 @@ static NODISCARD InstructionWalker insertCombiningBitcast(
  *
  * This also means, the source vector has less elements (of larger type-size) than the destination vector
  */
-static NODISCARD InstructionWalker insertSplittingBitcast(
+NODISCARD static InstructionWalker insertSplittingBitcast(
     InstructionWalker it, Method& method, const Value& src, const Value& dest, uint32_t elementStride, bool zeroOutput)
 {
     if(elementStride != 1)

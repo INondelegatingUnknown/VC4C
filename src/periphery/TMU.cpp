@@ -77,7 +77,7 @@ const TMU periphery::TMU0{REG_TMU0_COORD_S_U_X, REG_TMU0_COORD_T_V_Y, REG_TMU0_C
 const TMU periphery::TMU1{REG_TMU1_COORD_S_U_X, REG_TMU1_COORD_T_V_Y, REG_TMU1_COORD_R_BORDER_COLOR,
     REG_TMU1_COORD_B_LOD_BIAS, SIGNAL_LOAD_TMU1};
 
-static NODISCARD InstructionWalker insertCalculateAddressOffsets(Method& method, InstructionWalker it,
+NODISCARD static InstructionWalker insertCalculateAddressOffsets(Method& method, InstructionWalker it,
     const Value& baseAddress, const Value& numElements, uint32_t elementStrideInBytes, const Value& outputAddress)
 {
     // since the base address might be a single pointer, we need to replicate it for the upper vector elements to read
@@ -169,7 +169,7 @@ static NODISCARD InstructionWalker insertCalculateAddressOffsets(Method& method,
  * NOTE: out-of-bounds words cannot lie outside of reserved memory (if data does), since memory is always 4 Byte aligned
  * and multiples of 4 Byte
  */
-static NODISCARD InstructionWalker insertExtractHalfWordElements(
+NODISCARD static InstructionWalker insertExtractHalfWordElements(
     Method& method, InstructionWalker it, const Value& dest, const Value& src, const Value& addressVector)
 {
     // 1) for every address, check if it is aligned to 4 Byte <-> address & 0b11 == 0
@@ -198,7 +198,7 @@ static NODISCARD InstructionWalker insertExtractHalfWordElements(
  * The offset to shift by is calculated as following:
  * element address has offset of x to alignment of 4 Byte: elem = src >> (8 * x)
  */
-static NODISCARD InstructionWalker insertExtractByteElements(
+NODISCARD static InstructionWalker insertExtractByteElements(
     Method& method, InstructionWalker it, const Value& dest, const Value& src, const Value& addressVector)
 {
     // alignmentOffset = address & 0b11
@@ -223,7 +223,7 @@ static NODISCARD InstructionWalker insertExtractByteElements(
  * For 64-bit loads, we do not have the same problem as for bytes/half-words above with the alignment, since all 64-bit
  * aligned addresses are already correctly aligned for 32-bit addresses.
  */
-static NODISCARD InstructionWalker insertReadLongVectorFromTMU(
+NODISCARD static InstructionWalker insertReadLongVectorFromTMU(
     Method& method, InstructionWalker it, const Value& dest, const Value& addr, const TMU& tmu)
 {
     using namespace intermediate;

@@ -208,7 +208,7 @@ InstructionWalker periphery::insertFillLoweredRegister(Method& method, Instructi
         CompilationStep::NORMALIZER, "General case for filling register-lowered memory is not yet implemented");
 }
 
-static NODISCARD InstructionWalker insertByteToElementAndSubOffset(
+NODISCARD static InstructionWalker insertByteToElementAndSubOffset(
     InstructionWalker it, Value& outElementOffset, Value& outSubOffset, const RegisterCacheEntry& entry)
 {
     unsigned elementTypeSize = 0;
@@ -236,7 +236,7 @@ static NODISCARD InstructionWalker insertByteToElementAndSubOffset(
     return it;
 }
 
-static NODISCARD InstructionWalker insertByteToElementAndSubOffsetAndSelectedPart(InstructionWalker it,
+NODISCARD static InstructionWalker insertByteToElementAndSubOffsetAndSelectedPart(InstructionWalker it,
     Value& outElementOffset, Value& outSubOffset, Value& outSelectedPart, const RegisterCacheEntry& entry,
     const MultiRegisterData& loweredRegisters, bool isRead)
 {
@@ -317,7 +317,7 @@ static DataType convertSmallContainerLargeDataType(
     return containerType.getElementType().toVectorType(realVectorWidth);
 }
 
-static NODISCARD InstructionWalker lowerRegisterRead(Method& method, InstructionWalker it,
+NODISCARD static InstructionWalker lowerRegisterRead(Method& method, InstructionWalker it,
     const CacheAccessInstruction& readInstruction, const RegisterCacheEntry& entry)
 {
     auto elementOffset = UNDEFINED_VALUE;
@@ -405,7 +405,7 @@ static Value createFirstLastElementMask(DataType sourceType, DataType containerT
     return Value(Literal(mask), TYPE_INT32);
 }
 
-static NODISCARD InstructionWalker lowerRegisterWrite(Method& method, InstructionWalker it,
+NODISCARD static InstructionWalker lowerRegisterWrite(Method& method, InstructionWalker it,
     const CacheAccessInstruction& writeInstruction, const RegisterCacheEntry& entry)
 {
     auto elementOffset = UNDEFINED_VALUE;

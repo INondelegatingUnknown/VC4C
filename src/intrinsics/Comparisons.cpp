@@ -18,7 +18,7 @@ using namespace vc4c;
 using namespace vc4c::intermediate;
 using namespace vc4c::operators;
 
-static NODISCARD InstructionWalker replaceWithSetBoolean(
+NODISCARD static InstructionWalker replaceWithSetBoolean(
     InstructionWalker it, const Value& dest, ConditionCode trueCode, const Value& value = BOOL_TRUE)
 {
     /*
@@ -258,7 +258,7 @@ static void intrinsifyIntegerRelation(Method& method, TypedInstructionWalker<Com
         throw CompilationError(CompilationStep::NORMALIZER, "Unrecognized integer comparison", comp.opCode);
 }
 
-static NODISCARD InstructionWalker insertCheckForNaN(
+NODISCARD static InstructionWalker insertCheckForNaN(
     InstructionWalker it, const Value& result, const Comparison& comp, bool invertResult)
 {
     assign(it, result) = invertResult ? BOOL_TRUE : BOOL_FALSE;
@@ -276,7 +276,7 @@ static NODISCARD InstructionWalker insertCheckForNaN(
     return it;
 }
 
-static NODISCARD InstructionWalker insertCheckFloatZero(
+NODISCARD static InstructionWalker insertCheckFloatZero(
     InstructionWalker it, const Value& result, const Comparison& comp)
 {
     assign(it, result) = BOOL_FALSE;

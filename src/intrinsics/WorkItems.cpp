@@ -48,7 +48,7 @@ static InstructionDecorations getDimension(const Value& val)
     return InstructionDecorations::NONE;
 }
 
-static NODISCARD InstructionWalker intrinsifyReadWorkGroupInfo(Method& method, InstructionWalker it, const Value& arg,
+NODISCARD static InstructionWalker intrinsifyReadWorkGroupInfo(Method& method, InstructionWalker it, const Value& arg,
     const std::vector<BuiltinLocal::Type>& locals, const Value& defaultValue, InstructionDecorations decoration)
 {
     if(auto lit = (arg.getConstantValue() & &Value::getLiteralValue))
@@ -93,7 +93,7 @@ static NODISCARD InstructionWalker intrinsifyReadWorkGroupInfo(Method& method, I
     return it;
 }
 
-static NODISCARD InstructionWalker intrinsifyReadWorkItemInfo(Method& method, InstructionWalker it, const Value& arg,
+NODISCARD static InstructionWalker intrinsifyReadWorkItemInfo(Method& method, InstructionWalker it, const Value& arg,
     BuiltinLocal::Type local, const InstructionDecorations decoration)
 {
     /*
@@ -147,7 +147,7 @@ static NODISCARD InstructionWalker intrinsifyReadWorkItemInfo(Method& method, In
     return it;
 }
 
-static NODISCARD InstructionWalker intrinsifyReadLocalSize(Method& method, InstructionWalker it, const Value& arg)
+NODISCARD static InstructionWalker intrinsifyReadLocalSize(Method& method, InstructionWalker it, const Value& arg)
 {
     auto decorations = add_flag(InstructionDecorations::BUILTIN_LOCAL_SIZE, InstructionDecorations::UNSIGNED_RESULT,
         InstructionDecorations::WORK_GROUP_UNIFORM_VALUE);
@@ -183,7 +183,7 @@ static NODISCARD InstructionWalker intrinsifyReadLocalSize(Method& method, Instr
     return intrinsifyReadWorkItemInfo(method, it, arg, BuiltinLocal::Type::LOCAL_SIZES, decorations);
 }
 
-static NODISCARD InstructionWalker intrinsifyReadLocalID(Method& method, InstructionWalker it, const Value& arg)
+NODISCARD static InstructionWalker intrinsifyReadLocalID(Method& method, InstructionWalker it, const Value& arg)
 {
     if(method.metaData.getFixedWorkGroupSize() == 1u)
     {
@@ -199,7 +199,7 @@ static NODISCARD InstructionWalker intrinsifyReadLocalID(Method& method, Instruc
         method, it, arg, BuiltinLocal::Type::LOCAL_IDS, BuiltinLocal::getDecorations(BuiltinLocal::Type::LOCAL_IDS));
 }
 
-static NODISCARD InstructionWalker intrinsifyReadLocalLinearID(Method& method, InstructionWalker it,
+NODISCARD static InstructionWalker intrinsifyReadLocalLinearID(Method& method, InstructionWalker it,
     Value* outLocalSizeX = nullptr, Value* outLocalSizeY = nullptr, Value* outLocalSizeZ = nullptr)
 {
     if(method.metaData.getFixedWorkGroupSize() == 1u)
@@ -269,7 +269,7 @@ static NODISCARD InstructionWalker intrinsifyReadLocalLinearID(Method& method, I
     return it;
 }
 
-static NODISCARD InstructionWalker intrinsifyReadGlobalID(
+NODISCARD static InstructionWalker intrinsifyReadGlobalID(
     Method& method, InstructionWalker it, const Value& arg, bool includeOffset = true)
 {
     const Value tmpGroupID = method.addNewLocal(TYPE_INT32, "%group_id");
@@ -316,7 +316,7 @@ static NODISCARD InstructionWalker intrinsifyReadGlobalID(
     return it;
 }
 
-static NODISCARD InstructionWalker intrinsifyReadGlobalSize(Method& method, InstructionWalker it, const Value& arg)
+NODISCARD static InstructionWalker intrinsifyReadGlobalSize(Method& method, InstructionWalker it, const Value& arg)
 {
     const Value tmpLocalSize = method.addNewLocal(TYPE_INT8, "%local_size");
     const Value tmpNumGroups = method.addNewLocal(TYPE_INT32, "%num_groups");

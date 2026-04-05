@@ -18,7 +18,7 @@ using namespace vc4c::intermediate;
 /*
  * Finds the last instruction before the (list of) NOP(s) that is not a NOP -> the reason for the insertion of NOPs
  */
-static NODISCARD InstructionWalker findPreviousInstruction(BasicBlock& basicBlock, const InstructionWalker pos)
+NODISCARD static InstructionWalker findPreviousInstruction(BasicBlock& basicBlock, const InstructionWalker pos)
 {
     auto it = pos;
     while(!it.isStartOfBlock())
@@ -33,7 +33,7 @@ static NODISCARD InstructionWalker findPreviousInstruction(BasicBlock& basicBloc
 /*
  * Finds an instruction within the basic block that does not access any of the given values
  */
-static NODISCARD InstructionWalker findInstructionNotAccessing(BasicBlock& basicBlock, const InstructionWalker pos,
+NODISCARD static InstructionWalker findInstructionNotAccessing(BasicBlock& basicBlock, const InstructionWalker pos,
     FastSet<Value>& excludedValues, unsigned replaceNopThreshold, unsigned accumulatorThreshold)
 {
     std::size_t instructionsLeft = replaceNopThreshold;
@@ -172,7 +172,7 @@ static NODISCARD InstructionWalker findInstructionNotAccessing(BasicBlock& basic
  * NOP. Also, this instruction MUST not be dependent on any instruction in between the NOP and the
  * replacement-instruction
  */
-static NODISCARD InstructionWalker findReplacementCandidate(
+NODISCARD static InstructionWalker findReplacementCandidate(
     BasicBlock& basicBlock, const InstructionWalker pos, const DelayType nopReason, const Configuration& config)
 {
     FastSet<Value> excludedValues;

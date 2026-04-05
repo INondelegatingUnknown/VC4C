@@ -192,13 +192,13 @@ namespace vc4c
      * Returns the bit-field with the additional flag set
      */
     template <typename Bitfield>
-    CONST constexpr inline NODISCARD Bitfield add_flag(Bitfield orig, Bitfield flag) noexcept
+    NODISCARD CONST constexpr inline Bitfield add_flag(Bitfield orig, Bitfield flag) noexcept
     {
         return static_cast<Bitfield>(static_cast<unsigned>(orig) | static_cast<unsigned>(flag));
     }
 
     template <typename Bitfield, typename... Flags>
-    CONST constexpr inline NODISCARD Bitfield add_flag(
+    NODISCARD CONST constexpr inline Bitfield add_flag(
         Bitfield orig, Bitfield flag0, Bitfield flag1, Flags... flags) noexcept
     {
         return add_flag(orig, add_flag(flag0, flag1, flags...));
@@ -208,7 +208,7 @@ namespace vc4c
      * Returns the bit-field with the additional flag being cleared
      */
     template <typename Bitfield>
-    CONST constexpr inline NODISCARD Bitfield remove_flag(Bitfield orig, Bitfield flag) noexcept
+    NODISCARD CONST constexpr inline Bitfield remove_flag(Bitfield orig, Bitfield flag) noexcept
     {
         return static_cast<Bitfield>(static_cast<unsigned>(orig) & ~static_cast<unsigned>(flag));
     }
@@ -226,7 +226,7 @@ namespace vc4c
      * Returns a bit-field containing only the intersecting flags of the operands
      */
     template <typename Bitfield>
-    CONST constexpr inline NODISCARD Bitfield intersect_flags(Bitfield field0, Bitfield field1) noexcept
+    NODISCARD CONST constexpr inline Bitfield intersect_flags(Bitfield field0, Bitfield field1) noexcept
     {
         return static_cast<Bitfield>(static_cast<unsigned>(field0) & static_cast<unsigned>(field1));
     }
@@ -235,7 +235,7 @@ namespace vc4c
      * Returns a bit-field containing all flags set in either of the operands
      */
     template <typename Bitfield>
-    CONST constexpr inline NODISCARD Bitfield combine_flags(Bitfield field0, Bitfield field1) noexcept
+    NODISCARD CONST constexpr inline Bitfield combine_flags(Bitfield field0, Bitfield field1) noexcept
     {
         return static_cast<Bitfield>(static_cast<unsigned>(field0) | static_cast<unsigned>(field1));
     }

@@ -538,7 +538,7 @@ static uint8_t calculateQPUSideAddress(uint8_t scalarBitCount, unsigned char row
             std::to_string(static_cast<unsigned>(scalarBitCount)));
 }
 
-static NODISCARD InstructionWalker calculateVectorOffsetInVPM(Method& method, InstructionWalker it, DataType scalarType,
+NODISCARD static InstructionWalker calculateVectorOffsetInVPM(Method& method, InstructionWalker it, DataType scalarType,
     const Value& vectorWidth, const Value& inAreaByteOffset, Value& elementOffset, bool dontPack)
 {
     // e.g. long4 type, 64 byte offset -> 4 32-bit vector offset

@@ -21,7 +21,7 @@ using namespace vc4c;
 using namespace vc4c::normalization;
 using namespace vc4c::operators;
 
-static NODISCARD InstructionWalker insertCopyVector(
+NODISCARD static InstructionWalker insertCopyVector(
     Method& method, InstructionWalker it, const Value& out, const Value& in)
 {
     Value realOut = out;
@@ -567,7 +567,7 @@ static ImmediateHandler mapImmediateValue(const Literal& source)
     return handler;
 }
 
-static NODISCARD InstructionWalker handleImmediateInOperation(
+NODISCARD static InstructionWalker handleImmediateInOperation(
     Method& method, InstructionWalker it, intermediate::Operation& op)
 {
     for(std::size_t i = 0; i < op.getArguments().size(); ++i)
@@ -646,7 +646,7 @@ static NODISCARD InstructionWalker handleImmediateInOperation(
     return it;
 }
 
-static NODISCARD InstructionWalker handleImmediateInMove(
+NODISCARD static InstructionWalker handleImmediateInMove(
     Method& method, InstructionWalker it, intermediate::MoveOperation* move)
 {
     Value source = move->getSource();
@@ -715,7 +715,7 @@ InstructionWalker normalization::handleImmediate(
     return it;
 }
 
-static NODISCARD InstructionWalker findWriteOfLocal(InstructionWalker it, const Local* loc)
+NODISCARD static InstructionWalker findWriteOfLocal(InstructionWalker it, const Local* loc)
 {
     // TODO could already abort after X steps (X being the accumulator threshold)
     while(!it.isStartOfBlock() && !(it->checkOutputLocal() == loc))

@@ -190,7 +190,7 @@ static bool isMemoryOnlyRead(const Local* local)
 }
 
 // Finds the next instruction writing the given value into memory
-static NODISCARD TypedInstructionWalker<MemoryInstruction> findNextValueStore(
+NODISCARD static TypedInstructionWalker<MemoryInstruction> findNextValueStore(
     InstructionWalker it, const Value& src, std::size_t limit, const Local* sourceLocation)
 {
     while(!it.isEndOfBlock() && limit > 0)
@@ -214,7 +214,7 @@ static NODISCARD TypedInstructionWalker<MemoryInstruction> findNextValueStore(
     return typeSafe<MemoryInstruction>(it.getBasicBlock()->walkEnd());
 }
 
-static NODISCARD std::pair<InstructionWalker, InstructionWalker> insert64BitWrite(Method& method, InstructionWalker it,
+NODISCARD static std::pair<InstructionWalker, InstructionWalker> insert64BitWrite(Method& method, InstructionWalker it,
     Local* address, Value lower, Value upper, MemoryInstruction* origInstruction = nullptr)
 {
     if(origInstruction->guardAccess)

@@ -32,7 +32,7 @@ using namespace vc4c::optimizations;
 using namespace vc4c::intermediate;
 using namespace vc4c::operators;
 
-static NODISCARD InstructionWalker loadScalarParameter(
+NODISCARD static InstructionWalker loadScalarParameter(
     Parameter& param, DataType type, Method& method, InstructionWalker it, bool isElement = false)
 {
     auto decorations =
@@ -73,7 +73,7 @@ static NODISCARD InstructionWalker loadScalarParameter(
     return it;
 }
 
-static NODISCARD InstructionWalker loadVectorParameter(Parameter& param, Method& method, InstructionWalker it)
+NODISCARD static InstructionWalker loadVectorParameter(Parameter& param, Method& method, InstructionWalker it)
 {
     // we need to load a UNIFORM per vector element into the particular vector element
     for(uint8_t i = 0; i < param.type.getVectorWidth(); ++i)

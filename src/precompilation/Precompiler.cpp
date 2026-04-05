@@ -202,7 +202,7 @@ const std::shared_ptr<CompilationDataPrivate>& CompilationData::inner() const no
     return data;
 }
 
-static NODISCARD CompilationData runPrecompiler(
+NODISCARD static CompilationData runPrecompiler(
     const CompilationData& input, const Configuration& config, SourceType outputType, const std::string& options);
 
 CompilationData Precompiler::precompile(const CompilationData& input, Configuration config, const std::string& options)
@@ -301,7 +301,7 @@ static PrecompilationSource<Type> assertSource(const CompilationData& source)
     throw CompilationError(CompilationStep::PRECOMPILATION, "Compilation data is of wrong type");
 }
 
-static NODISCARD SPIRVSource compileToSPIRV(const CompilationData& source)
+NODISCARD static SPIRVSource compileToSPIRV(const CompilationData& source)
 {
     if(source.getType() == SourceType::OPENCL_C)
     {
@@ -324,7 +324,7 @@ static NODISCARD SPIRVSource compileToSPIRV(const CompilationData& source)
             std::to_string(static_cast<unsigned>(source.getType())));
 }
 
-static NODISCARD LLVMIRSource compileToLLVM(const CompilationData& source)
+NODISCARD static LLVMIRSource compileToLLVM(const CompilationData& source)
 {
     if(source.getType() == SourceType::OPENCL_C)
     {

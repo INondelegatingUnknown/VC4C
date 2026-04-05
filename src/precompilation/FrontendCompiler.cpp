@@ -166,7 +166,7 @@ static std::vector<std::string> buildClangCommand(const std::string& compiler, c
     return command;
 }
 
-static NODISCARD std::unique_ptr<std::stringstream> runPrecompiler(const std::string& command,
+NODISCARD static std::unique_ptr<std::stringstream> runPrecompiler(const std::string& command,
     std::unique_ptr<std::istream>&& inputStream, std::unique_ptr<std::stringstream>&& outputStream)
 {
     std::ostringstream stderr;

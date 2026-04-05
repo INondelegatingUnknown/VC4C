@@ -129,7 +129,7 @@ Register ColoredNodeBase::getRegisterFixed() const
 }
 
 template <std::size_t size>
-static NODISCARD std::size_t fixToRegisterFile(std::bitset<size>& set)
+NODISCARD static std::size_t fixToRegisterFile(std::bitset<size>& set)
 {
     if(size == 6 /* accumulators */ && set.test(5))
     {
@@ -797,7 +797,7 @@ static RegisterFile getBlockedInputs(
     return blockedFiles;
 }
 
-static NODISCARD LocalUse checkUser(
+NODISCARD static LocalUse checkUser(
     const tools::SmallSortedPointerMap<const LocalUser*, LocalUse>& users, const InstructionWalker it)
 {
     LocalUse use;
@@ -812,7 +812,7 @@ static NODISCARD LocalUse checkUser(
     return use;
 }
 
-static NODISCARD LocalUse assertUser(
+NODISCARD static LocalUse assertUser(
     const tools::SmallSortedPointerMap<const LocalUser*, LocalUse>& users, const InstructionWalker it)
 {
     auto use = checkUser(users, it);
@@ -824,7 +824,7 @@ static NODISCARD LocalUse assertUser(
     return use;
 }
 
-static NODISCARD bool reassignNodeToRegister(ColoredGraph& graph, ColoredNode& node)
+NODISCARD static bool reassignNodeToRegister(ColoredGraph& graph, ColoredNode& node)
 {
     node.forAllEdges([&](ColoredNode& neighbor, ColoredEdge& edge) -> bool {
         if(edge.data == LocalRelation::USED_TOGETHER &&
@@ -846,7 +846,7 @@ static NODISCARD bool reassignNodeToRegister(ColoredGraph& graph, ColoredNode& n
     return fixed;
 }
 
-static NODISCARD bool moveLocalToRegisterFile(Method& method, ColoredGraph& graph, ColoredNode& node,
+NODISCARD static bool moveLocalToRegisterFile(Method& method, ColoredGraph& graph, ColoredNode& node,
     FastMap<const Local*, LocalUsage>& localUses, LocalUsage& localUse, const RegisterFile file)
 {
     bool needNextRound = false;
@@ -924,7 +924,7 @@ static bool blocksLocal(const ColoredNode* neighbor, LocalRelation relation)
         !has_flag(neighbor->possibleFiles, RegisterFile::ACCUMULATOR);
 }
 
-static NODISCARD bool fixSingleError(Method& method, ColoredGraph& graph, ColoredNode& node,
+NODISCARD static bool fixSingleError(Method& method, ColoredGraph& graph, ColoredNode& node,
     FastMap<const Local*, LocalUsage>& localUses, LocalUsage& localUse)
 {
     /*

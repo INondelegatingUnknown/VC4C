@@ -234,13 +234,13 @@ namespace vc4c
              *
              * This function is used for inlining instructions
              */
-            virtual NODISCARD std::unique_ptr<IntermediateInstruction> copyFor(
+            NODISCARD virtual std::unique_ptr<IntermediateInstruction> copyFor(
                 Method& method, const std::string& localPrefix, InlineMapping& localMapping) const = 0;
             /*
              * Converts the instruction to an equivalent assembler-instruction with the local-register- and
              * label-position-mappings resolved
              */
-            virtual NODISCARD qpu_asm::DecoratedInstruction convertToAsm(
+            NODISCARD virtual qpu_asm::DecoratedInstruction convertToAsm(
                 const FastMap<const Local*, Register>& registerMapping,
                 const FastMap<const Local*, std::size_t>& labelMapping, std::size_t instructionIndex) const = 0;
             /*

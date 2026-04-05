@@ -270,7 +270,7 @@ static uint32_t rotateElementNumberDown(uint32_t value, uint8_t index)
     return value + 16 - index;
 }
 
-static NODISCARD InstructionWalker insertDynamicVectorShuffle(
+NODISCARD static InstructionWalker insertDynamicVectorShuffle(
     InstructionWalker it, Method& method, const Value& destination, const Value& source, const Value& mask)
 {
     // for each element, write rotation offset to element 0 of r5, rotate and insert into result vector
@@ -302,7 +302,7 @@ static NODISCARD InstructionWalker insertDynamicVectorShuffle(
     return it;
 }
 
-static NODISCARD InstructionWalker insertDynamicVectorShuffle2Vectors(InstructionWalker it, Method& method,
+NODISCARD static InstructionWalker insertDynamicVectorShuffle2Vectors(InstructionWalker it, Method& method,
     const Value& destination, const Value& source0, const Value& source1, const Value& mask)
 {
     // For each element select which input to use, truncate offset to [0,15] within that input, extract and insert
@@ -915,7 +915,7 @@ Optional<std::vector<ElementSource>> checkVectorCanBeAssembled(DataType type, co
     return results;
 }
 
-static NODISCARD InstructionWalker insertAssembleVector(
+NODISCARD static InstructionWalker insertAssembleVector(
     InstructionWalker it, Method& method, const Value& dest, std::vector<ElementSource>&& sources)
 {
     if(sources.empty())
