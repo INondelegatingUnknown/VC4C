@@ -241,74 +241,109 @@ namespace vc4c
             return has_value() ? (*this)->to_string() : "-";
         }
 
-#if __cplusplus < 201703L
-        bool has_value() const
+        friend constexpr bool operator==(const Optional& o1, const Optional& o2) noexcept
+        {
+            return
+                (!o1.has_value() && !o2.has_value()) ||
+                (o1.has_value() && o2.has_value() && (*o1 == *o2));
+        }
+
+        friend constexpr bool operator==(const Optional& o, const T& val) noexcept
+        {
+            return o.has_value() && (*o == val);
+        }
+
+        friend constexpr bool operator==(const T& val, const Optional& o) noexcept
+        {
+            return o.has_value() && (*o == val);
+        }
+
+        friend constexpr bool operator!=(const Optional& o1, const Optional& o2) noexcept
+        {
+            return
+                (o1.has_value() && !o2.has_value()) ||
+                (!o1.has_value() && o2.has_value()) ||
+                (o1.has_value() && o2.has_value() && (*o1 != *o2));
+        }
+
+        friend constexpr bool operator!=(const Optional& o, const T& val) noexcept
+        {
+            return !o.has_value() || (*o != val);
+        }
+
+        friend constexpr bool operator!=(const T& val, const Optional& o) noexcept
+        {
+            return !o.has_value() || (*o != val);
+        }
+
+        bool has_value() const noexcept
         {
             return static_cast<bool>(*this);
         }
-#endif
 
         // These operators are defined as member operators to not interfere with any other operator, since any Type is
         // implicitly convertible to Optional<Type>
-        [[deprecated]] bool operator&(const std::function<bool(const T&)>& func) const
+        [[deprecated]] friend bool operator&(const Optional& o, const std::function<bool(const T&)>& func)
         {
-            return has_value() && func(**this);
+            return o.has_value() && func(*o);
         }
 
         template <typename Func>
-        std::enable_if_t<std::is_member_function_pointer<Func>::value &&
+        friend std::enable_if_t<std::is_member_function_pointer<Func>::value &&
                 std::is_convertible<std::result_of_t<Func(const T&)>, bool>::value,
             bool>
-        operator&(Func&& func) const
+        operator&(const Optional& o, Func&& func)
         {
-            return has_value() && ((**this).*func)();
+            return o.has_value() && ((*o).*func)();
         }
 
         template <typename Func>
-        std::enable_if_t<!std::is_member_function_pointer<Func>::value &&
+        friend std::enable_if_t<!std::is_member_function_pointer<Func>::value &&
                 std::is_convertible<std::result_of_t<Func(const T&)>, bool>::value,
             bool>
-        operator&(Func&& func) const
+        operator&(const Optional& o, Func&& func)
         {
-            return has_value() && func(**this);
+            return o.has_value() && func(*o);
         }
 
         template <typename R>
-        [[deprecated]] Optional<R> operator&(const std::function<Optional<R>(const T&)>& func) const
+        [[deprecated]] friend Optional<R> operator&(const Optional& o, const std::function<Optional<R>(const T&)>& func)
         {
-            return has_value() ? func(**this) : Optional<R>{};
+            return o.has_value() ? func(*o) : Optional<R>{};
         }
 
         template <typename R>
-        [[deprecated]] R* operator&(const std::function<R*(const T&)>& func) const
+        [[deprecated]] friend R* operator&(const Optional& o, const std::function<R*(const T&)>& func)
         {
-            return has_value() ? func(**this) : nullptr;
+            return o.has_value() ? func(*o) : nullptr;
         }
 
         template <typename Func>
-        std::enable_if_t<std::is_pointer<std::result_of_t<Func(const T&)>>::value, std::result_of_t<Func(const T&)>>
-        operator&(Func&& func) const
+        friend std::enable_if_t<std::is_pointer<std::result_of_t<Func(const T&)>>::value, std::result_of_t<Func(const T&)>>
+        operator&(const Optional& o, Func&& func)
         {
-            return has_value() ? func(**this) : nullptr;
+            return o.has_value() ? func(*o) : nullptr;
         }
 
         template <typename S = T>
-        typename std::enable_if<std::is_class<S>::value, bool>::type operator&(bool (S::*func)() const) const
+        friend typename std::enable_if<std::is_class<S>::value, bool>::type
+        operator&(const Optional& o, bool (S::*func)() const)
         {
-            return has_value() && ((**this).*func)();
+            return o.has_value() && ((*o).*func)();
         }
 
         template <typename R, typename S = T>
-        typename std::enable_if<std::is_class<S>::value, Optional<R>>::type operator&(
-            Optional<R> (S::*func)() const) const
+        friend typename std::enable_if<std::is_class<S>::value, Optional<R>>::type
+        operator&(const Optional& o, Optional<R> (S::*func)() const)
         {
-            return has_value() ? ((**this).*func)() : Optional<R>{};
+            return o.has_value() ? ((*o).*func)() : Optional<R>{};
         }
 
         template <typename R, typename S = T>
-        typename std::enable_if<std::is_class<S>::value, R*>::type operator&(R* (S::*func)() const) const
+        friend typename std::enable_if<std::is_class<S>::value, R*>::type
+        operator&(const Optional& o, R* (S::*func)() const)
         {
-            return has_value() ? ((**this).*func)() : nullptr;
+            return o.has_value() ? ((*o).*func)() : nullptr;
         }
 
         const Optional<T>& operator|(const Optional<T>& other) const&
