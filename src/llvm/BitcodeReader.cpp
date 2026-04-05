@@ -567,11 +567,13 @@ DataType BitcodeReader::toDataType(Module& module, const llvm::Type* type, Optio
                             << type->getIntegerBitWidth() << logging::endl;
         return TYPE_INT64;
     }
-    if(type->isPointerTy() && type->getPointerElementType()->isStructTy())
+    /*if(type->isPointerTy() && type->getPointerElementType()->isStructTy())*/
+    /**/if(type->isPointerTy() && type->getNonOpaquePointerElementType()->isStructTy())/**/
     {
         // recognize image types - taken from
         // https://github.com/KhronosGroup/SPIRV-LLVM/blob/khronos/spirv-3.6.1/lib/SPIRV/SPIRVUtil.cpp (#isOCLImageType)
-        const llvm::StructType* str = llvm::cast<const llvm::StructType>(type->getPointerElementType());
+        /*const llvm::StructType* str = llvm::cast<const llvm::StructType>(type->getPointerElementType());*/
+        /**/const auto str = llvm::cast<const llvm::StructType>(type->getNonOpaquePointerElementType());/**/
         if(str->isOpaque() && str->getName().find("opencl.image") == 0)
         {
             auto dimensions = str->getName().find('3') != llvm::StringRef::npos ?
@@ -617,7 +619,8 @@ DataType BitcodeReader::toDataType(Module& module, const llvm::Type* type, Optio
     }
     if(type->isPointerTy())
     {
-        DataType elementType = toDataType(module, type->getPointerElementType());
+        /*DataType elementType = toDataType(module, type->getPointerElementType());*/
+        /**/const auto elementType = toDataType(module, type->getNonOpaquePointerElementType());/**/
         return DataType(module.createPointerType(elementType,
             overrideAddressSpace.value_or(toAddressSpace(static_cast<int32_t>(type->getPointerAddressSpace())))));
     }
@@ -640,7 +643,8 @@ static ParameterDecorations toParameterDecorations(const llvm::Argument& arg, Da
         deco = add_flag(deco, ParameterDecorations::READ_ONLY);
     if(type.getImageType())
     {
-        const llvm::StructType* str = llvm::cast<const llvm::StructType>(arg.getType()->getPointerElementType());
+        /*const llvm::StructType* str = llvm::cast<const llvm::StructType>(arg.getType()->getPointerElementType());*/
+        /**/const auto str = llvm::cast<const llvm::StructType>(arg.getType()->getNonOpaquePointerElementType());/**/
         if(str->getName().find("ro_t") != std::string::npos)
             deco = add_flag(deco, ParameterDecorations::READ_ONLY, ParameterDecorations::INPUT);
         else if(str->getName().find("wo_t") != std::string::npos)
@@ -877,7 +881,7 @@ void BitcodeReader::parseInstruction(
         for(auto& casePair : switchIns->cases())
         {
             auto caseValue = casePair.getCaseValue()->getZExtValue();
-            caseValue = caseValue & casePair.getCaseValue()->getType()->getBitMask();
+            caseValue = caseValue & casePair.getCaseValue()->getIntegerType()->getBitMask();
             caseLabels.emplace(caseValue, toValue(method, casePair.getCaseSuccessor(), &instructions));
         }
         instructions.emplace_back(
@@ -934,7 +938,7 @@ void BitcodeReader::parseInstruction(
         // for arrays, the allocated type is the array type, so we don't need to handle them special here
         const DataType contentType = toDataType(module, alloca->getAllocatedType());
         const DataType pointerType = toDataType(module, alloca->getType());
-        unsigned alignment = alloca->getAlignment();
+        unsigned alignment = alloca->getAlign().value();
         auto it = method.stackAllocations.emplace(
             StackAllocation(("%" + alloca->getName()).str(), pointerType, contentType.getInMemoryWidth(), alignment));
         localMap[alloca] = &(*it.first);
@@ -1592,7 +1596,21 @@ Value BitcodeReader::precalculateConstantExpression(
         const Value src0 = toConstant(module, expr->getOperand(0), method, instructions);
         const Value src1 = toConstant(module, expr->getOperand(1), method, instructions);
 
-        auto predicate = expr->getPredicate();
+        /**/auto getPredicate = [](const llvm::ConstantExpr* expr) -> llvm::CmpInst::Predicate
+        {
+            const auto opcode = expr->getOpcode();
+
+            if ((opcode == llvm::Instruction::ICmp) || (opcode == llvm::Instruction::FCmp))
+            {
+                auto predicate_value = llvm::cast<llvm::ConstantInt>(expr->getOperand(0));
+                return static_cast<llvm::CmpInst::Predicate>(predicate_value->getZExtValue());
+            }
+
+            return llvm::CmpInst::BAD_ICMP_PREDICATE;
+        };
+
+        const auto predicate = getPredicate(expr);/**/
+        /*auto predicate = expr->getPredicate();*/
 
         switch(predicate)
         {

@@ -51,17 +51,17 @@ LCOV_EXCL_STOP
 std::shared_ptr<llvm::LLVMContext> precompilation::initializeLLVMContext()
 {
     auto context = std::make_shared<llvm::LLVMContext>();
-    context->setDiagnosticHandlerCallBack([](const llvm::DiagnosticInfo& info, void* /* dummy */) {
+    context->setDiagnosticHandlerCallBack([](const llvm::DiagnosticInfo* info, void* /* dummy */) {
         LCOV_EXCL_START
         std::stringstream ss;
         llvm::raw_os_ostream os(ss);
         llvm::DiagnosticPrinterRawOStream dp(os);
-        info.print(dp);
+        info->print(dp);
         auto text = trim(ss.str());
         if(text.empty())
             return;
 
-        switch(info.getSeverity())
+        switch(info->getSeverity())
         {
         case llvm::DiagnosticSeverity::DS_Warning:
             logging::warn() << "Warning in LLVM/clang: " << text << logging::endl;

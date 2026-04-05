@@ -32,7 +32,7 @@
 
 #include "llvm/Analysis/TargetLibraryInfo.h"
 #include "llvm/IR/LegacyPassManager.h"
-#include "llvm/Transforms/IPO/PassManagerBuilder.h"
+/*#include "llvm/Transforms/IPO/PassManagerBuilder.h"*/
 
 #include <fstream>
 #include <functional>
@@ -104,7 +104,7 @@ static std::unique_ptr<clang::CompilerInstance> createInstance(
     instance->getTargetOpts().Triple = "spir-unknown-unknown";
 
 #if LLVM_LIBRARY_VERSION >= 120
-    clang::CompilerInvocation::setLangDefaults(instance->getLangOpts(), INPUT_LANGUAGE,
+    clang::LangOptions::setLangDefaults(instance->getLangOpts(), INPUT_LANGUAGE,
         llvm::Triple("spir-unknown-unknown"), instance->getPreprocessorOpts().Includes,
         clang::LangStandard::lang_opencl12);
 #else
