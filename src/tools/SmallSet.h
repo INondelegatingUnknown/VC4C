@@ -14,6 +14,8 @@
 #include <set>
 #include <stdexcept>
 #include <type_traits>
+#include <limits>
+#include <cstdint>
 
 namespace vc4c
 {
