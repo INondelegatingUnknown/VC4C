@@ -11,7 +11,9 @@
 
 using namespace vc4c;
 
+#if __cplusplus < 201703L
 constexpr OpCode Expression::FAKEOP_UMUL;
+#endif
 
 static intermediate::InstructionDecorations extractValueDecorations(
     const Value& value, intermediate::InstructionDecorations deco = intermediate::InstructionDecorations::NONE)
