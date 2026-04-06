@@ -527,6 +527,9 @@ namespace vc4c
         std::mutex accessMutex;
     };
 
+    // Is located in Types.cpp
+    extern TypeHolder GLOBAL_TYPE_HOLDER;
+
     /*
      * Void pointer type in the default address space
      */

@@ -29,8 +29,6 @@
 
 using namespace vc4c;
 
-extern TypeHolder GLOBAL_TYPE_HOLDER;
-
 TestInstructions::TestInstructions()
 {
     TEST_ADD(TestInstructions::testConditionCodes);

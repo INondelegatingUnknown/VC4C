@@ -15,10 +15,14 @@
 #include <sstream>
 #include <stdexcept>
 
+namespace vc4c
+{
+    // TODO remove if possible!
+    /* extern */ TypeHolder GLOBAL_TYPE_HOLDER;
+}
+
 using namespace vc4c;
 
-// TODO remove if possible!
-TypeHolder GLOBAL_TYPE_HOLDER;
 std::unique_ptr<ComplexType> TypeHolder::voidPtr{new PointerType(TYPE_VOID)};
 const DataType vc4c::TYPE_VOID_POINTER{TypeHolder::voidPtr.get()};
 

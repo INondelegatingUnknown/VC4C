@@ -19,9 +19,6 @@
 
 using namespace vc4c;
 
-// Is located in Types.cpp
-extern TypeHolder GLOBAL_TYPE_HOLDER;
-
 LCOV_EXCL_START
 static std::vector<std::string> createUniformValues(const KernelHeader& kernel)
 {
