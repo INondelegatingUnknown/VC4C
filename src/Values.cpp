@@ -14,8 +14,11 @@
 
 using namespace vc4c;
 
+#if __cplusplus < 201703L
+// TO DO: check declarations of following things
 constexpr Literal tombstone_traits<Literal>::tombstone;
 constexpr SmallImmediate tombstone_traits<SmallImmediate>::tombstone;
+#endif
 
 static SIMDVector ELEMENT_NUMBER_VECTOR(
     {Literal(0), Literal(1), Literal(2), Literal(3), Literal(4), Literal(5), Literal(6), Literal(7), Literal(8),
