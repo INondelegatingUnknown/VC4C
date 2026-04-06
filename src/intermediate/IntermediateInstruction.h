@@ -414,6 +414,8 @@ namespace vc4c
         public:
             SignalingInstruction& setSignaling(Signaling signal);
 
+            virtual ~SignalingInstruction();
+
         protected:
             explicit SignalingInstruction(Signaling signal, Optional<Value>&& output = {});
         };
@@ -429,6 +431,8 @@ namespace vc4c
 
             ExtendedInstruction& setSetFlags(SetFlag setFlags);
 
+            virtual ~ExtendedInstruction();
+
         protected:
             explicit ExtendedInstruction(
                 Signaling signal, ConditionCode cond, SetFlag setFlags, Pack packMode, Optional<Value>&& output = {});
@@ -439,6 +443,8 @@ namespace vc4c
         public:
             Unpack getUnpackMode() const;
             UnpackingInstruction& setUnpackMode(Unpack unpackMode);
+
+            virtual ~UnpackingInstruction();
 
         protected:
             explicit UnpackingInstruction(Signaling signal, ConditionCode cond, SetFlag setFlags, Pack packMode,

@@ -683,6 +683,8 @@ SignalingInstruction& SignalingInstruction::setSignaling(const Signaling signal)
     return *this;
 }
 
+SignalingInstruction::~SignalingInstruction() {}
+
 ExtendedInstruction::ExtendedInstruction(
     Signaling signal, ConditionCode cond, SetFlag setFlags, Pack packMode, Optional<Value>&& output) :
     SignalingInstruction(signal, std::move(output))
@@ -720,6 +722,8 @@ ExtendedInstruction& ExtendedInstruction::setSetFlags(const SetFlag setFlags)
     return *this;
 }
 
+ExtendedInstruction::~ExtendedInstruction() {}
+
 UnpackingInstruction::UnpackingInstruction(Signaling signal, ConditionCode cond, SetFlag setFlags, Pack packMode,
     Unpack unpackMode, Optional<Value>&& output) :
     ExtendedInstruction(signal, cond, setFlags, packMode, std::move(output))
@@ -737,3 +741,5 @@ UnpackingInstruction& UnpackingInstruction::setUnpackMode(const Unpack unpackMod
     this->unpackMode = unpackMode;
     return *this;
 }
+
+UnpackingInstruction::~UnpackingInstruction() {}
