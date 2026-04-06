@@ -247,7 +247,7 @@ void IntermediateInstruction::setArgument(std::size_t index, Value&& arg)
     }
     else
         // this is somehow required, since it crashes, when an uninitialized Value is assigned a value
-        arguments.insert(arguments.begin() + index, std::move(arg));
+        arguments.insert(arguments.begin() + std::ptrdiff_t(index), std::move(arg));
 
     addAsUserToValue(arguments[index], LocalUse::Type::READER);
 }
