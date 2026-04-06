@@ -127,6 +127,7 @@ void BitcodeReader::extractKernelMetadata(Module& module, Method& kernel, const 
         // access qualifiers for image arguments, e.g. "!3 = !{!"none", !"none"}"
         // XXX what to do with them? Only valid for images
         // if we don't use image-config for writing images, we could e.g. don't write it for write-only images
+        (void)metadata;
     }
     if(auto metadata = func.getMetadata("kernel_arg_type"))
     {
@@ -151,6 +152,7 @@ void BitcodeReader::extractKernelMetadata(Module& module, Method& kernel, const 
     {
         // base types, e.g. for type-defs, e.g. "!4 = !{!"float*", !"float*"}"
         // is not used
+        (void)metadata;
     }
     if(auto metadata = func.getMetadata("kernel_arg_type_qual"))
     {
@@ -1427,6 +1429,7 @@ Value BitcodeReader::toConstant(
     }
     else if(auto constant = llvm::dyn_cast<const llvm::ConstantAggregateZero>(val))
     {
+        (void)constant;
         return module.storeVector(SIMDVector(Literal(0u)), type);
     }
     else if(auto constant = llvm::dyn_cast<const llvm::ConstantFP>(val))
