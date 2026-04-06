@@ -97,7 +97,10 @@ Optional<Value> normalization::getConstantElementValue(const Value& source)
                 return ELEMENT_NUMBER_REGISTER;
         }
         if(auto reg = container->checkRegister())
+        {
+            (void)reg;
             return container;
+        }
     }
     auto globalContainer = global->initialValue.getCompound();
     auto sourceData = source.local()->get<ReferenceData>();
@@ -129,8 +132,11 @@ static Optional<DataType> convertSmallArrayToRegister(const Local* local)
         if(arrayType && arrayType->size <= NATIVE_VECTOR_SIZE && arrayType->elementType.isScalarType())
             return arrayType->elementType.toVectorType(static_cast<uint8_t>(arrayType->size));
         if(auto pointerType = baseType.getPointerType())
+        {
             // pointer to pointer (the content is a pointer) fits into register
+            (void)pointerType;
             return TYPE_INT32;
+        }
         if(baseType.isSimpleType())
             // any simple type fits into register
             return baseType;
@@ -156,15 +162,21 @@ static bool hasMemoryWrites(const Local* local)
         // memory store/fill/etc. instructions "write" the written-to address, so we have to check for address "writers"
         loc->forUsers(LocalUse::Type::WRITER, [&](const LocalUser* writer) {
             if(auto memInst = dynamic_cast<const MemoryInstruction*>(writer))
+            {
+                (void)memInst;
                 isWrittenTo = true;
+            }
         });
         if(isWrittenTo)
             return true;
 
         loc->forUsers(LocalUse::Type::READER, [&](const LocalUser* reader) {
             if(auto memInst = dynamic_cast<const MemoryInstruction*>(reader))
+            {
                 // do not continue tracking the read value (or the copied-to address)
+                (void)memInst;
                 return;
+            }
             if(auto out = reader->checkOutputLocal())
             {
                 if(closed.find(out) == closed.end())
