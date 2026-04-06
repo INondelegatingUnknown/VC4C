@@ -20,7 +20,7 @@ namespace vc4c
             reinterpret_cast<std::uintptr_t>(std::addressof(#func[0])), #func, __FILE__, __LINE__);                    \
         profiler::ProfilingScope profile##name{profileEntry##func};                                                    \
         return func(__VA_ARGS__);                                                                                      \
-    }();
+    }()
 
 #define PROFILE_START(name)                                                                                            \
     static_assert(__builtin_constant_p(#name), "");                                                                    \
@@ -56,7 +56,7 @@ namespace vc4c
     static_assert(__builtin_constant_p(name), "");                                                                     \
     static thread_local auto profileCounter = profiler::createCounter(                                                 \
         reinterpret_cast<std::uintptr_t>(std::addressof(#name[0])), base, name, __FILE__, __LINE__);                   \
-    profiler::increaseCounter(profileCounter, value);
+    profiler::increaseCounter(profileCounter, value)
 
 #define PROFILE_COUNTER_SCOPE(base, name, value)                                                                       \
     do                                                                                                                 \
@@ -70,18 +70,18 @@ namespace vc4c
 #define PROFILE_COUNTER_DYNAMIC(base, name, value)                                                                     \
     auto profileCounterDynamic =                                                                                       \
         profiler::createCounter(std::hash<std::string>{}(name), base, name, __FILE__, __LINE__);                       \
-    profiler::increaseCounter(profileCounterDynamic, value);
+    profiler::increaseCounter(profileCounterDynamic, value)
 
 #define PROFILE_COUNTER_WITH_PREV(base, name, value)                                                                   \
     static_assert(__builtin_constant_p(name), "");                                                                     \
     static thread_local auto profileCounter2 = profiler::createCounter(                                                \
         reinterpret_cast<std::uintptr_t>(std::addressof(#name[0])), base, name, __FILE__, __LINE__, profileCounter);   \
-    profiler::increaseCounter(profileCounter2, value);
+    profiler::increaseCounter(profileCounter2, value)
 
 #define PROFILE_COUNTER_DYNAMIC_WITH_PREV(base, name, value)                                                           \
     auto profileCounterDynamic2 = profiler::createCounter(                                                             \
         std::hash<std::string>{}(name), base, name, __FILE__, __LINE__, profileCounterDynamic);                        \
-    profiler::increaseCounter(profileCounterDynamic2, value);
+    profiler::increaseCounter(profileCounterDynamic2, value)
 
 #define PROFILE_RESULTS() profiler::dumpProfileResults()
 
