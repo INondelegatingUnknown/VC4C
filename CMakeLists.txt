@@ -17,7 +17,7 @@ option(LLVMLIB_FRONTEND "Enables the front-end using the LLVM library to read LL
 # Option whether to enable code coverage analysis via gcov
 option(ENABLE_COVERAGE "Enables collection of code coverage via gcov" OFF)
 # Option whether to enable use of the CLang library (EXPERIMENTAL)
-option(CLANG_LIBRARY "Uses the libclang library for compilation, uses the clang executable otherwise" ON)
+option(CLANG_LIBRARY "Uses the libclang library for compilation, uses the clang executable otherwise" OFF)
 # Option whether to enable more compile-time checks
 option(ADVANCED_CHECKS "Enable advanced compile-time checks" OFF)
 # Option to skipping pre-compiling the VC4CLStdLib standard-library headers at compile time. NOTE: The headers still need to be pre-compiled before execution!
