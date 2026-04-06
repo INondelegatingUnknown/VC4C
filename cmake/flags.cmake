@@ -3,10 +3,8 @@ set(VC4C_ENABLED_WARNINGS
 	-Wold-style-cast -Wnon-virtual-dtor -Wnull-dereference
 	-Wno-unused-parameter -Wno-missing-field-initializers -Wno-write-strings -Wno-float-equal
 	-Werror=return-type -Werror=unused-result -Werror=shift-count-overflow -Werror=missing-field-initializers -Werror=reorder
-	-Wunknown-warning-option
-	-Wno-macro-redefined -Wno-deprecated-declarations
+	-Wno-deprecated-declarations
 	-Wno-switch-default
-	-Wno-unsafe-buffer-usage
 )
 # Enable additional warnings, if available
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
@@ -19,6 +17,7 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		-Wno-unused-command-line-argument -Wno-unused-member-function -Wno-gnu-zero-variadic-macro-arguments -Wno-covered-switch-default
 		-Wno-switch-enum -Wno-shadow-field -Wno-suggest-destructor-override
 		-Werror=return-stack-address
+		-Wno-macro-redefined
 		-Wno-unsafe-buffer-usage
 	)
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
@@ -29,7 +28,6 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 		-Wuninitialized -Wsuggest-attribute=format -Wsuggest-override -Wconversion -Wzero-as-null-pointer-constant
 		-Wno-psabi -Wno-unknown-pragmas
 		-Werror=return-local-addr -Werror=uninitialized
-		-Wno-return-std-move-in-c++11
 	)
 endif()
 
