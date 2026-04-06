@@ -118,7 +118,7 @@ namespace vc4c
 
             NODISCARD std::unique_ptr<intermediate::IntermediateInstruction> toInstruction(const Value& result)
             {
-                std::unique_ptr<intermediate::UnpackingInstruction> res = nullptr;
+                std::unique_ptr<intermediate::UnpackingInstruction> res;
                 if(op == OP_V8MIN)
                     res = std::make_unique<intermediate::MoveOperation>(result, arg0);
                 else if(op.numOperands == 1)
