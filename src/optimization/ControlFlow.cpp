@@ -464,7 +464,7 @@ std::size_t optimizations::moveLoopInvariantCode(const Module& module, Method& m
             {
                 if(processedInsts.find(it.get()) != processedInsts.end())
                     ss << it->to_string() << "\\l";
-            };
+            }
             return ss.str();
         });
 #endif
