@@ -25,7 +25,7 @@ static const char* toName(int signal)
     return "(unknown)";
 }
 
-static void handleSignal(int signal)
+__attribute__((noreturn)) static void handleSignal(int signal)
 {
     logging::error() << "Received signal: " << toName(signal) << logging::endl;
     vc4c::CompilationError::logBacktrace();
