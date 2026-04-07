@@ -188,7 +188,7 @@ static std::string getErrorPosition(spv_diagnostic diagnostics)
     return std::to_string(diagnostics->position.line).append(":") + std::to_string(diagnostics->position.column);
 }
 
-SPIRVToolsParser::~SPIRVToolsParser() = default;
+SPIRVToolsParser::~SPIRVToolsParser() {}
 
 std::vector<uint32_t> SPIRVToolsParser::assembleTextToBinary(const std::vector<uint32_t>& module)
 {

@@ -95,7 +95,7 @@ namespace vc4c
                 throw CompilationError(CompilationStep::GENERAL, "SPIR-V Tools is not available!");
             }
 
-            ~SPIRVToolsParser() override = default;
+            ~SPIRVToolsParser() override;
 
         protected:
             void doParse(const std::vector<uint32_t>& module) override
