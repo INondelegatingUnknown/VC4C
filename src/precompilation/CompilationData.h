@@ -163,7 +163,7 @@ namespace vc4c
 
             void readInto(std::ostream& out) const override
             {
-                out.write(reinterpret_cast<const char*>(data.data()), data.size());
+                out.write(reinterpret_cast<const char*>(data.data()), static_cast<std::streamsize>(data.size()));
             }
 
             void writeFrom(std::istream& in) override
