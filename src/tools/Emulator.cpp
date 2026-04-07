@@ -43,10 +43,12 @@ extern void extractBinary(const CompilationData& binary, ModuleHeader& module, S
 // Base type for type erasure of called object type
 struct ExecutionBase : NonCopyable
 {
-    virtual ~ExecutionBase() noexcept = default;
+    virtual ~ExecutionBase() noexcept;
 
     virtual bool operator()(uint32_t currentCycle) = 0;
 };
+
+ExecutionBase::~ExecutionBase() noexcept {}
 
 template <typename Func>
 struct ExecutionWrapper final : ExecutionBase
