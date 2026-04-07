@@ -28,7 +28,7 @@ const Value IMAGE_CONFIG_CHILD_OFFSET_OFFSET(Literal(3 * static_cast<uint32_t>(s
 const Value IMAGE_CONFIG_CHANNEL_OFFSET(Literal(4 * static_cast<uint32_t>(sizeof(unsigned))), TYPE_INT32);
 // The sixth entry is the array-size or image-depth
 const Value IMAGE_CONFIG_ARRAY_SIZE_OFFSET(Literal(5 * static_cast<uint32_t>(sizeof(unsigned))), TYPE_INT32);
-const Value IMAGE_CONFIG_IMAGE_DEPTH_OFFSET = IMAGE_CONFIG_ARRAY_SIZE_OFFSET;
+// TO DO: remove unused ? const Value IMAGE_CONFIG_IMAGE_DEPTH_OFFSET = IMAGE_CONFIG_ARRAY_SIZE_OFFSET;
 
 Global* intermediate::reserveImageConfiguration(Module& module, Parameter& image)
 {
