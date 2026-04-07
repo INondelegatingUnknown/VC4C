@@ -166,8 +166,10 @@ namespace vc4c
             ColoredGraph graph;
             FastSet<const Local*> errorSet;
 
-            void createGraph();
-            void resetGraph();
+            // TO DO: argument in following methods is dummy and introduced
+            // for the sake of no warnings when using PROFILE macro.
+            void createGraph(int);
+            void resetGraph(int);
         };
     } // namespace qpu_asm
 } // namespace vc4c

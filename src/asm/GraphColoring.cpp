@@ -486,7 +486,7 @@ static void insertR5Node(ColoredGraph& graph)
     CPPLOG_LAZY(logging::Level::DEBUG, log << "Created dummy node: " << r5Node.to_string(false) << logging::endl);
 }
 
-void GraphColoring::createGraph()
+void GraphColoring::createGraph(int)
 {
     // We need to update these every time, since fix in the previous iteration may have changed the livenesses and will
     // have changed the local interferences.
@@ -732,9 +732,9 @@ bool GraphColoring::colorGraph()
 {
     if(!graph.getNodes().empty())
     {
-        PROFILE(resetGraph);
+        PROFILE(resetGraph, 0);
     }
-    PROFILE(createGraph);
+    PROFILE(createGraph, 0);
 
     // process all nodes fixed initially to a register-file
     processClosedSet(graph, closedSet, openSet, errorSet);
@@ -1283,7 +1283,7 @@ const ColoredGraph& GraphColoring::getGraph() const
     return graph;
 }
 
-void GraphColoring::resetGraph()
+void GraphColoring::resetGraph(int)
 {
     // reset the graph and the closed- and open sets
     openSet.clear();
