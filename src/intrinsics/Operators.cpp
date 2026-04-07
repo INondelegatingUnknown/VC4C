@@ -692,8 +692,7 @@ InstructionWalker intrinsics::intrinsifyUnsignedIntegerDivisionByConstant(
     if(op.getFirstArg().type.getScalarBitCount() > 16)
         throw CompilationError(CompilationStep::NORMALIZER, "Division by constant may overflow for argument type",
             op.getFirstArg().type.to_string());
-    /*if(!(op.getSecondArg() & &Value::isLiteralValue) && !(op.getSecondArg() & &Value::checkVector))*/
-    /**/if(!(op.getSecondArg() & &Value::isLiteralValue) && !(op.getSecondArg() && op.getSecondArg()->checkVector()))/**/
+    if(!(op.getSecondArg() & &Value::isLiteralValue) && !(op.getSecondArg() && op.getSecondArg()->checkVector()))
         throw CompilationError(CompilationStep::NORMALIZER, "Can only optimize division by constant", op.to_string());
 
     /*
@@ -1051,7 +1050,7 @@ Literal intrinsics::asr(Literal left, Literal right)
 {
     // Tests have shown that on VC4 all shifts (asr, shr, shl) only take the last 5 bits of the offset (modulo 32)
     auto offset = right.unsignedInt() & 0x1F;
-    if((-1 >> 31u) == -1)
+    if((-1 >> 31u) == -1L)
         // if signed right shift is arithmetic shift on the underlying architecture, then use that instead of the manual
         // shifting
         return Literal(left.signedInt() >> offset);
