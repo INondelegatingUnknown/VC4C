@@ -164,7 +164,6 @@ InstructionWalker normalization::insertAddressToOffsetAndContainer(InstructionWa
             assign(it, outContainer) = (baseAddressesAndContainers.at(loc), cond);
             return it;
         });
-    return it;
 }
 
 InstructionWalker normalization::insertAddressToStackOffset(InstructionWalker it, Method& method, Value& out,
